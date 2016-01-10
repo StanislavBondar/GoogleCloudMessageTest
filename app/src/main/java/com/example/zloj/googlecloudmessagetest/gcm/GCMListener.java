@@ -40,8 +40,11 @@ public class GCMListener extends GcmListenerService {
                 wl.acquire();
                 mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
                 mKeyguardLock = mKeyguardManager.newKeyguardLock("TAG");
-                mKeyguardLock.disableKeyguard();
-
+                try {
+                    mKeyguardLock.disableKeyguard();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 notification(data);
                 new Handler().post(new Runnable() {
                     @Override
