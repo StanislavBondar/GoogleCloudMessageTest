@@ -1,5 +1,6 @@
 package com.example.zloj.googlecloudmessagetest.gcm;
 
+import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,8 +24,6 @@ public class GCMListener extends GcmListenerService {
 
     PowerManager pm;
     PowerManager.WakeLock wl;
-    KeyguardManager mKeyguardManager;
-    KeyguardManager.KeyguardLock mKeyguardLock;
 
     @Override
     public void onMessageReceived(String from, final Bundle data) {
@@ -38,19 +37,15 @@ public class GCMListener extends GcmListenerService {
                 wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK, "bbbb");
                 wl.acquire(15000);
                 wl.acquire();
-                mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-                mKeyguardLock = mKeyguardManager.newKeyguardLock("TAG");
-                try {
-                    mKeyguardLock.disableKeyguard();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
+                final KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+                lock.disableKeyguard();
                 notification(data);
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         wl.release();
-                        mKeyguardLock.reenableKeyguard();
+                        lock.reenableKeyguard();
                     }
                 });
             }
@@ -63,6 +58,10 @@ public class GCMListener extends GcmListenerService {
                         .setSmallIcon(R.drawable.ic_stat_ic_notification)
                         .setContentTitle(message.getString("title"))
                         .setContentText(message.getString("message"));
+
+        MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.mix);
+        mPlayer.start();
+
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);
 
@@ -86,8 +85,6 @@ public class GCMListener extends GcmListenerService {
 // mId allows you to update the notification later on.
         mNotificationManager.notify(0, mBuilder.build());
 
-        MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.alarm);
-        mPlayer.start();
     }
 
     private String parseJson(Bundle bundle) {

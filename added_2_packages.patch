@@ -1,0 +1,607 @@
+Index: pushapp/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/.gitignore	(revision )
++++ pushapp/.gitignore	(revision )
+@@ -0,0 +1,1 @@
++/build
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1452445760000)
++++ .idea/modules.xml	(revision )
+@@ -4,6 +4,8 @@
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/GoogleCloudMessageTest.iml" filepath="$PROJECT_DIR$/GoogleCloudMessageTest.iml" />
+       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
++      <module fileurl="file://$PROJECT_DIR$/mysender/mysender.iml" filepath="$PROJECT_DIR$/mysender/mysender.iml" />
++      <module fileurl="file://$PROJECT_DIR$/pushapp/pushapp.iml" filepath="$PROJECT_DIR$/pushapp/pushapp.iml" />
+     </modules>
+   </component>
+ </project>
+\ No newline at end of file
+Index: mysender/proguard-rules.pro
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/proguard-rules.pro	(revision )
++++ mysender/proguard-rules.pro	(revision )
+@@ -0,0 +1,17 @@
++# Add project specific ProGuard rules here.
++# By default, the flags in this file are appended to flags specified
++# in C:\Users\Aleksandr\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
++# You can edit the include path and order by changing the proguardFiles
++# directive in build.gradle.
++#
++# For more details, see
++#   http://developer.android.com/guide/developing/tools/proguard.html
++
++# Add any project specific keep options here:
++
++# If your project uses WebView with JS, uncomment the following
++# and specify the fully qualified class name to the JavaScript interface
++# class:
++#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
++#   public *;
++#}
+Index: pushapp/.classpath
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/.classpath	(revision )
++++ pushapp/.classpath	(revision )
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
++	<classpathentry kind="lib" path="libs/gcm-server.jar"/>
++	<classpathentry kind="lib" path="libs/json-simple-1.1.jar"/>
++	<classpathentry kind="output" path="bin"/>
++</classpath>
+Index: pushapp/.settings/org.eclipse.jdt.core.prefs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/.settings/org.eclipse.jdt.core.prefs	(revision )
++++ pushapp/.settings/org.eclipse.jdt.core.prefs	(revision )
+@@ -0,0 +1,11 @@
++eclipse.preferences.version=1
++org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
++org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.7
++org.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve
++org.eclipse.jdt.core.compiler.compliance=1.7
++org.eclipse.jdt.core.compiler.debug.lineNumber=generate
++org.eclipse.jdt.core.compiler.debug.localVariable=generate
++org.eclipse.jdt.core.compiler.debug.sourceFile=generate
++org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
++org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
++org.eclipse.jdt.core.compiler.source=1.7
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- settings.gradle	(date 1452445760000)
++++ settings.gradle	(revision )
+@@ -1,1 +1,1 @@
+-include ':app'
++include ':app', ':pushapp', ':mysender'
+Index: mysender/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/main/AndroidManifest.xml	(revision )
++++ mysender/src/main/AndroidManifest.xml	(revision )
+@@ -0,0 +1,10 @@
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.aleksandrp.mysender">
++
++    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
++        android:label="@string/app_name" android:supportsRtl="true"
++        android:theme="@style/AppTheme">
++
++    </application>
++
++</manifest>
+Index: mysender/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/main/res/values/styles.xml	(revision )
++++ mysender/src/main/res/values/styles.xml	(revision )
+@@ -0,0 +1,11 @@
++<resources>
++
++    <!-- Base application theme. -->
++    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
++        <!-- Customize your theme here. -->
++        <item name="colorPrimary">@color/colorPrimary</item>
++        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
++        <item name="colorAccent">@color/colorAccent</item>
++    </style>
++
++</resources>
+Index: mysender/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/build.gradle	(revision )
++++ mysender/build.gradle	(revision )
+@@ -0,0 +1,19 @@
++apply plugin: 'application'
++
++mainClassName = "com.aleksandrp.mysender.GcmSender"
++
++run {
++    def params = []
++    if (project.hasProperty('msg')) {
++        params.add(project.msg)
++        if (project.hasProperty('to')) {
++            params.add(project.to)
++        }
++    }
++    args params
++}
++
++dependencies {
++    compile 'org.apache.commons:commons-io:1.3.2'
++    compile 'org.json:json:20140107'
++}
+\ No newline at end of file
+Index: mysender/src/main/java/com/aleksandrp/mysender/GcmSender.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/main/java/com/aleksandrp/mysender/GcmSender.java	(revision )
++++ mysender/src/main/java/com/aleksandrp/mysender/GcmSender.java	(revision )
+@@ -0,0 +1,163 @@
++/**
++ * Copyright 2015 Google Inc. All Rights Reserved.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.aleksandrp.mysender;
++
++import org.apache.commons.io.IOUtils;
++import org.json.JSONException;
++import org.json.JSONObject;
++
++import java.io.IOException;
++import java.io.InputStream;
++import java.io.OutputStream;
++import java.net.HttpURLConnection;
++import java.net.URL;
++
++// NOTE:
++// This class emulates a server for the purposes of this sample,
++// but it's not meant to serve as an example for a production app server.
++// This class should also not be included in the client (Android) applicaiton
++// since it includes the server's API key. For information on GCM server
++// implementation see: https://developers.google.com/cloud-messaging/server
++public class GcmSender {
++
++    public static final String API_KEY = "AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
++
++    public static void main(String[] args) {
++        if (args.length < 1 || args.length > 2 || args[0] == null) {
++            System.err.println("usage: ./gradlew run -Pmsg=\"MESSAGE\" [-Pto=\"DEVICE_TOKEN\"]");
++            System.err.println("");
++            System.err.println("Specify a test message to broadcast via GCM. If a device's GCM registration token is\n" +
++                    "specified, the message will only be sent to that device. Otherwise, the message \n" +
++                    "will be sent to all devices subscribed to the \"global\" topic.");
++            System.err.println("");
++            System.err.println("Example (Broadcast):\n" +
++                    "On Windows:   .\\gradlew.bat run -Pmsg=\"<Your_Message>\"\n" +
++                    "On Linux/Mac: ./gradlew run -Pmsg=\"<Your_Message>\"");
++            System.err.println("");
++            System.err.println("Example (Unicast):\n" +
++                    "On Windows:   .\\gradlew.bat run -Pmsg=\"<Your_Message>\" -Pto=\"<Your_Token>\"\n" +
++                    "On Linux/Mac: ./gradlew run -Pmsg=\"<Your_Message>\" -Pto=\"<Your_Token>\"");
++            System.exit(1);
++        }
++        try {
++            // Prepare JSON containing the GCM message content. What to send and where to send.
++            JSONObject jGcmData = new JSONObject();
++            JSONObject jData = new JSONObject();
++            jData.put("message", args[0].trim());
++            // Where to send GCM message.
++            if (args.length > 1 && args[1] != null) {
++                jGcmData.put("to", args[1].trim());
++            } else {
++                jGcmData.put("to", "/topics/global");
++            }
++            // What to send in GCM message.
++            jGcmData.put("data", jData);
++
++            // Create connection to send GCM Message request.
++            URL url = new URL("https://android.googleapis.com/gcm/send");
++            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
++            conn.setRequestProperty("Authorization", "key=" + API_KEY);
++            conn.setRequestProperty("Content-Type", "application/json");
++            conn.setRequestMethod("POST");
++            conn.setDoOutput(true);
++
++            // Send GCM message content.
++            OutputStream outputStream = conn.getOutputStream();
++            outputStream.write(jGcmData.toString().getBytes());
++
++            // Read GCM response.
++            InputStream inputStream = conn.getInputStream();
++            String resp = IOUtils.toString(inputStream);
++            System.out.println(resp);
++            System.out.println("Check your device/emulator for notification or logcat for " +
++                    "confirmation of the receipt of the GCM message.");
++        } catch (IOException e) {
++            System.out.println("Unable to send GCM message.");
++            System.out.println("Please ensure that API_KEY has been replaced by the server " +
++                    "API key, and that the device's registration token is correct (if specified).");
++            e.printStackTrace();
++        } catch (JSONException e) {
++            e.printStackTrace();
++        }
++    }
++//
++////    public static final String API_KEY = "755649251323";
++////    public static final String AUTHENTICATION_TOKEN = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
++//    public static final String API_KEY = "AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
++//
++//
++//    public static void main(String[] args) {
++////        if (args.length < 1 || args.length > 2 || args[0] == null) {
++////            System.err.println("usage: ./gradlew run -Pmsg=\"MESSAGE\" [-Pto=\"DEVICE_TOKEN\"]");
++////            System.err.println("");
++////            System.err.println("Specify a test message to broadcast via GCM. If a device's GCM registration token is\n" +
++////                    "specified, the message will only be sent to that device. Otherwise, the message \n" +
++////                    "will be sent to all devices subscribed to the \"global\" topic.");
++////            System.err.println("");
++////            System.err.println("Example (Broadcast):\n" +
++////                    "On Windows:   .\\gradlew.bat run -Pmsg=\"<Your_Message>\"\n" +
++////                    "On Linux/Mac: ./gradlew run -Pmsg=\"<Your_Message>\"");
++////            System.err.println("");
++////            System.err.println("Example (Unicast):\n" +
++////                    "On Windows:   .\\gradlew.bat run -Pmsg=\"<Your_Message>\" -Pto=\"<Your_Token>\"\n" +
++////                    "On Linux/Mac: ./gradlew run -Pmsg=\"<Your_Message>\" -Pto=\"<Your_Token>\"");
++////            System.exit(1);
++////        }
++//        try {
++//            // Prepare JSON containing the GCM message content. What to send and where to send.
++//            JSONObject jGcmData = new JSONObject();
++//            JSONObject jData = new JSONObject();
++//            String message = "Hi Aleks zloj!";
++//            jData.put("message", message);
++//            // Where to send GCM message.
++////            if (args.length > 1 && args[1] != null) {
++////                jGcmData.put("to", args[1].trim());
++////            } else {
++//                jGcmData.put("to", "/topics/global");
++////            }
++//            // What to send in GCM message.
++//            jGcmData.put("data", jData);
++//
++//            // Create connection to send GCM Message request.
++//            URL url = new URL("https://android.googleapis.com/gcm/send");
++//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
++//            conn.setRequestProperty("Authorization", "key=" + API_KEY);
++//            conn.setRequestProperty("Content-Type", "application/json");
++//            conn.setRequestMethod("POST");
++//            conn.setDoOutput(true);
++//
++//            // Send GCM message content.
++//            OutputStream outputStream = conn.getOutputStream();
++//            outputStream.write(jGcmData.toString().getBytes());
++//
++//            // Read GCM response.
++//            InputStream inputStream = conn.getInputStream();
++//            String resp = IOUtils.toString(inputStream);
++//            System.out.println(resp);
++//            System.out.println("Check your device/emulator for notification or logcat for " +
++//                    "confirmation of the receipt of the GCM message.");
++//        } catch (IOException e) {
++//            System.out.println("Unable to send GCM message.");
++//            System.out.println("Please ensure that API_KEY has been replaced by the server " +
++//                    "API key, and that the device's registration token is correct (if specified).");
++//            e.printStackTrace();
++//        } catch (JSONException e) {
++//            e.printStackTrace();
++//        }
++//    }
++
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1452445760000)
++++ .idea/misc.xml	(revision )
+@@ -37,7 +37,7 @@
+     <ConfirmationsSetting value="0" id="Add" />
+     <ConfirmationsSetting value="0" id="Remove" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+\ No newline at end of file
+Index: google-services.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- google-services.json	(revision )
++++ google-services.json	(revision )
+@@ -0,0 +1,42 @@
++{
++  "project_info": {
++    "project_id": "eminent-yen-118107",
++    "project_number": "755649251323",
++    "name": "GoogleCloudMessageTest"
++  },
++  "client": [
++    {
++      "client_info": {
++        "mobilesdk_app_id": "1:755649251323:android:3484e2931acd25a3",
++        "client_id": "android:com.example.zloj.googlecloudmessagetest",
++        "client_type": 1,
++        "android_client_info": {
++          "package_name": "com.example.zloj.googlecloudmessagetest"
++        }
++      },
++      "oauth_client": [],
++      "api_key": [],
++      "services": {
++        "analytics_service": {
++          "status": 1
++        },
++        "cloud_messaging_service": {
++          "status": 2,
++          "apns_config": []
++        },
++        "appinvite_service": {
++          "status": 1,
++          "other_platform_oauth_client": []
++        },
++        "google_signin_service": {
++          "status": 1
++        },
++        "ads_service": {
++          "status": 1
++        }
++      }
++    }
++  ],
++  "client_info": [],
++  "ARTIFACT_VERSION": "1"
++}
+\ No newline at end of file
+Index: mysender/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/.gitignore	(revision )
++++ mysender/.gitignore	(revision )
+@@ -0,0 +1,1 @@
++/build
+Index: pushapp/src/main/java/com/example/Notiffy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/src/main/java/com/example/Notiffy.java	(revision )
++++ pushapp/src/main/java/com/example/Notiffy.java	(revision )
+@@ -0,0 +1,62 @@
++package com.example;
++
++import com.google.android.gcm.server.Message;
++import com.google.android.gcm.server.MulticastResult;
++import com.google.android.gcm.server.Sender;
++
++import java.util.ArrayList;
++
++public class Notiffy {
++    public static void main(String args[]) {
++
++        String Server_API_Key2 ="AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
++
++        try {
++
++            Sender sender = new Sender(Server_API_Key2);
++
++
++            String devTok = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
++
++
++            ArrayList<String> devicesList = new ArrayList<String>();
++            devicesList.add(devTok);
++            devicesList.add(devTok);
++
++            // Use this line to send message without payload data
++            // Message message = new Message.Builder().build();
++
++            // use this line to send message with payload data
++            Message message = new Message.Builder()
++                    .collapseKey("1")
++                    .timeToLive(3)
++                    .delayWhileIdle(true)
++                    .addData("message",
++                            "this text will be seen in notification bar!!")
++                    .build();
++
++            // Use this code to send to a single device
++            // Result result = sender
++            // .send(message,
++            // "APA91bGiRaramjyohc2lKjAgFGpzBwtEmI8tJC30O89C2b3IjP1CuMeU1h9LMjKhmWuZwcXZjy1eqC4cE0tWBNt61Kx_SuMF6awzIt8WNq_4AfwflaVPHQ0wYHG_UX3snjp_U-5kJkmysdRlN6T8xChB1n3DtIq98w",
++            // 1);
++
++            // Use this for multicast messages
++            MulticastResult result = sender.send(message, devicesList, 1);
++            sender.send(message, devicesList, 1);
++
++            System.out.println(result.toString());
++            if (result.getResults() != null) {
++                int canonicalRegId = result.getCanonicalIds();
++                if (canonicalRegId != 0) {
++                }
++            } else {
++                int error = result.getFailure();
++                System.out.println(error);
++            }
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++
++    }
++}
+Index: pushapp/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/build.gradle	(revision )
++++ pushapp/build.gradle	(revision )
+@@ -0,0 +1,5 @@
++apply plugin: 'java'
++
++dependencies {
++    compile fileTree(dir: 'libs', include: ['*.jar'])
++}
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(date 1452445760000)
++++ .idea/gradle.xml	(revision )
+@@ -10,12 +10,16 @@
+           <set>
+             <option value="$PROJECT_DIR$" />
+             <option value="$PROJECT_DIR$/app" />
++            <option value="$PROJECT_DIR$/mysender" />
++            <option value="$PROJECT_DIR$/pushapp" />
+           </set>
+         </option>
+         <option name="myModules">
+           <set>
+             <option value="$PROJECT_DIR$" />
+             <option value="$PROJECT_DIR$/app" />
++            <option value="$PROJECT_DIR$/mysender" />
++            <option value="$PROJECT_DIR$/pushapp" />
+           </set>
+         </option>
+       </GradleProjectSettings>
+\ No newline at end of file
+Index: mysender/src/androidTest/java/com/aleksandrp/mysender/ApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/androidTest/java/com/aleksandrp/mysender/ApplicationTest.java	(revision )
++++ mysender/src/androidTest/java/com/aleksandrp/mysender/ApplicationTest.java	(revision )
+@@ -0,0 +1,13 @@
++package com.aleksandrp.mysender;
++
++import android.app.Application;
++import android.test.ApplicationTestCase;
++
++/**
++ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
++ */
++public class ApplicationTest extends ApplicationTestCase<Application> {
++    public ApplicationTest() {
++        super(Application.class);
++    }
++}
+\ No newline at end of file
+Index: pushapp/.project
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pushapp/.project	(revision )
++++ pushapp/.project	(revision )
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>pushapp</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+Index: app/src/main/java/com/example/zloj/googlecloudmessagetest/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zloj/googlecloudmessagetest/MainActivity.java	(date 1452445760000)
++++ app/src/main/java/com/example/zloj/googlecloudmessagetest/MainActivity.java	(revision )
+@@ -3,8 +3,8 @@
+ import android.content.Context;
+ import android.content.SharedPreferences;
+ import android.os.AsyncTask;
+-import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
++import android.support.v7.app.AppCompatActivity;
+ import android.util.Log;
+ import android.widget.TextView;
+ 
+Index: mysender/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/main/res/values/colors.xml	(revision )
++++ mysender/src/main/res/values/colors.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="colorPrimary">#3F51B5</color>
++    <color name="colorPrimaryDark">#303F9F</color>
++    <color name="colorAccent">#FF4081</color>
++</resources>
+Index: mysender/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- mysender/src/main/res/values/strings.xml	(revision )
++++ mysender/src/main/res/values/strings.xml	(revision )
+@@ -0,0 +1,3 @@
++<resources>
++    <string name="app_name">My sender</string>
++</resources>

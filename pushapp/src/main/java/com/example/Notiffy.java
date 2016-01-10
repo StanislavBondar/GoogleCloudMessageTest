@@ -32,7 +32,9 @@ public class Notiffy {
                     .timeToLive(3)
                     .delayWhileIdle(true)
                     .addData("message",
-                            "this text will be seen in notification bar!!")
+                            "I send this text from my server!!")
+                    .addData("title",
+                            "My GCM")
                     .build();
 
             // Use this code to send to a single device
