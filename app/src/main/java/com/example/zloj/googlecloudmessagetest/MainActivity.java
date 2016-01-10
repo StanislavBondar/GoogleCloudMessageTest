@@ -15,6 +15,11 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private String Server_API_Key = "AIzaSyDIUDnc_FC--OYR7pFPTswD0vUR_O0j8dw";
+
+    private String Server_API_Key2 ="AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
+
+    String devTok = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
+
     private String Sender_ID_help = "755649251323";
 
     private String SENDER_ID = "755649251323";
