@@ -1,14 +1,11 @@
 package com.example.zloj.googlecloudmessagetest.gcm;
 
-import android.app.Activity;
-import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -29,30 +26,45 @@ public class GCMListener extends GcmListenerService {
     public void onMessageReceived(String from, final Bundle data) {
         super.onMessageReceived(from, data);
         System.out.println("MESSAGE RECEIVED: " + data.toString());
-        Handler mHandler = new Handler(this.getMainLooper());
-        mHandler.post(new Runnable() {
+
+//        Thread wake =
+                new Thread(new Runnable() {
             @Override
             public void run() {
-                pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                wl = pm.newWakeLock(
-                        PowerManager.SCREEN_DIM_WAKE_LOCK
-                                | PowerManager.ON_AFTER_RELEASE
-                                | PowerManager.ACQUIRE_CAUSES_WAKEUP, "bbbb");
-//                wl.acquire(15000);
-                wl.acquire();
-                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
-                final KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
-                lock.disableKeyguard();
+
                 notification(data);
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        wl.release();
-                        lock.reenableKeyguard();
-                    }
-                });
+
             }
-        });
+        }).start();
+
+
+
+
+//
+//        Handler mHandler = new Handler(this.getMainLooper());
+//        mHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//                wl = pm.newWakeLock(
+//                        PowerManager.SCREEN_DIM_WAKE_LOCK
+//                                | PowerManager.ON_AFTER_RELEASE
+//                                | PowerManager.ACQUIRE_CAUSES_WAKEUP, "bbbb");
+////                wl.acquire(15000);
+//                wl.acquire();
+//                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
+//                final KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+//                lock.disableKeyguard();
+//                notification(data);
+//                new Handler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        wl.release();
+//                        lock.reenableKeyguard();
+//                    }
+//                });
+//            }
+//        });
     }
 
     protected void notification(Bundle message) {
