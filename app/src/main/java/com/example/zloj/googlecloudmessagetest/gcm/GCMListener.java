@@ -1,13 +1,11 @@
 package com.example.zloj.googlecloudmessagetest.gcm;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.example.zloj.googlecloudmessagetest.MainActivity;
@@ -26,8 +24,12 @@ public class GCMListener extends GcmListenerService {
     public void onMessageReceived(String from, final Bundle data) {
         super.onMessageReceived(from, data);
         System.out.println("MESSAGE RECEIVED: " + data.toString());
-
-//        Thread wake =
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                wl = pm.newWakeLock(
+                        PowerManager.SCREEN_DIM_WAKE_LOCK
+                                | PowerManager.ON_AFTER_RELEASE
+                                | PowerManager.ACQUIRE_CAUSES_WAKEUP, "bbbb");
+                wl.acquire(1000);
                 new Thread(new Runnable() {
             @Override
             public void run() {
@@ -68,11 +70,11 @@ public class GCMListener extends GcmListenerService {
     }
 
     protected void notification(Bundle message) {
-        NotificationCompat.Builder mBuilder =
+        /*NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_ic_notification)
                         .setContentTitle(message.getString("title"))
-                        .setContentText(message.getString("message"));
+                        .setContentText(message.getString("message"));*/
 
         MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.mix);
         mPlayer.start();
@@ -94,11 +96,11 @@ public class GCMListener extends GcmListenerService {
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        mBuilder.setContentIntent(resultPendingIntent);
+       /* mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);*/
 // mId allows you to update the notification later on.
-        mNotificationManager.notify(0, mBuilder.build());
+//        mNotificationManager.notify(0, mBuilder.build());
 
     }
 

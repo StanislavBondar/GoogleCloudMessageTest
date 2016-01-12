@@ -15,10 +15,7 @@ public class Notiffy {
 
             Sender sender = new Sender(Server_API_Key2);
 
-
-            String devTok = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
-            devTok = "APA91bECE58hstI5zgFXqdDO56ROs2Ril5uos1ehXZjbwULmB8xeDFCZQuNYCYkmV4dqcdvCHarH0AFijeP33zoQ8pyPDddaEzd2bQjb7MFUZTwaf-_GfiKUDcw6fZgiOWUETfuYKLIfJy-Px_p6lxUdBjTUXnHeJg";
-
+            String devTok = "APA91bFnKS_E2s8DmFazQGWLCcTuR6hqXvYyS5DJFeUgvjzwfLgp5LiMQ-4-wvfK-_mn5Vr2yRZWfSWLrZJtGnpjY_OVLcYVdn_8WdJl0_AGK1OatnnJIVOIZBE9Sy6reVgrn9kQM95ot53vH2YZOOaXPoplaYbtUw";
 
             ArrayList<String> devicesList = new ArrayList<String>();
             devicesList.add(devTok);

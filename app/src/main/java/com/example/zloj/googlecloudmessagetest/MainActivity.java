@@ -14,13 +14,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String Server_API_Key = "AIzaSyDIUDnc_FC--OYR7pFPTswD0vUR_O0j8dw";
-
-    private String Server_API_Key2 ="AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
-
-    String devTok = "APA91bECE58hstI5zgFXqdDO56ROs2Ril5uos1ehXZjbwULmB8xeDFCZQuNYCYkmV4dqcdvCHarH0AFijeP33zoQ8pyPDddaEzd2bQjb7MFUZTwaf-_GfiKUDcw6fZgiOWUETfuYKLIfJy-Px_p6lxUdBjTUXnHeJg";
-    private String Sender_ID_help = "755649251323";
-
     private String SENDER_ID = "755649251323";
     private GoogleCloudMessaging gcm = null;
     private String tokenTAG = "token";
