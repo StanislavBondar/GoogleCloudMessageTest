@@ -17,6 +17,7 @@ public class Notiffy {
 
 
             String devTok = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
+            devTok = "APA91bECE58hstI5zgFXqdDO56ROs2Ril5uos1ehXZjbwULmB8xeDFCZQuNYCYkmV4dqcdvCHarH0AFijeP33zoQ8pyPDddaEzd2bQjb7MFUZTwaf-_GfiKUDcw6fZgiOWUETfuYKLIfJy-Px_p6lxUdBjTUXnHeJg";
 
 
             ArrayList<String> devicesList = new ArrayList<String>();

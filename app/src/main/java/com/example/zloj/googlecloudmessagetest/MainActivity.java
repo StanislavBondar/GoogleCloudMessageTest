@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String Server_API_Key2 ="AIzaSyDRXw4YlOgwD_UrwEJS3ZkLSypO_-QrMeU";
 
-    String devTok = "APA91bHOPdd6iX8_3oIJI_UDi_E93V10LFEAa6stkDQ5ebQuQaOdmzUExeJg8Hb6axOdkyls-uZdCJw_ePtFA41bZvDjoh_lj7hWhrOpObSzlsfdENcx67rEffVKhYFtxT4vpQGGdR-v-8zNlwjOrYZmXQCfNTxTHQ";
-
+    String devTok = "APA91bECE58hstI5zgFXqdDO56ROs2Ril5uos1ehXZjbwULmB8xeDFCZQuNYCYkmV4dqcdvCHarH0AFijeP33zoQ8pyPDddaEzd2bQjb7MFUZTwaf-_GfiKUDcw6fZgiOWUETfuYKLIfJy-Px_p6lxUdBjTUXnHeJg";
     private String Sender_ID_help = "755649251323";
 
     private String SENDER_ID = "755649251323";
@@ -93,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(o);
             System.out.println(o.toString() + "\n");
             textViewToken.setText("Token = " + msg);
+
+            System.out.println( "Token ::: " + msg);
             if (!msg.contains("Error")) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(tokenTAG, msg);
