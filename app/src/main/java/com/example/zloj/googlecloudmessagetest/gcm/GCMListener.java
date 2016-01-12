@@ -34,8 +34,11 @@ public class GCMListener extends GcmListenerService {
             @Override
             public void run() {
                 pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK, "bbbb");
-                wl.acquire(15000);
+                wl = pm.newWakeLock(
+                        PowerManager.SCREEN_DIM_WAKE_LOCK
+                                | PowerManager.ON_AFTER_RELEASE
+                                | PowerManager.ACQUIRE_CAUSES_WAKEUP, "bbbb");
+//                wl.acquire(15000);
                 wl.acquire();
                 KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
                 final KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);

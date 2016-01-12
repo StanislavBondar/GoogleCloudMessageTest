@@ -31,7 +31,7 @@ public class Notiffy {
             Message message = new Message.Builder()
                     .collapseKey("1")
                     .timeToLive(3)
-                    .delayWhileIdle(true)
+                    .delayWhileIdle(false)
                     .addData("message",
                             "I send this text from my server!!")
                     .addData("title",
